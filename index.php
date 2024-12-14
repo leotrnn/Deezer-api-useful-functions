@@ -1,7 +1,7 @@
 <?php
 
-$artistName = "System of a Down";
-$albumName = "Hypnotize";
+$artistName = "Korn";
+$albumName = "Follow the Leader";
 
 function GetApiResult(?string $artistName, ?string $albumName): array
 {
@@ -110,7 +110,23 @@ function GetSongsFromAlbum(string $artistName, string $albumName): array
     <link rel="stylesheet" href="index.css">
     <title>Deezer API test</title>
 </head>
-
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const audios = document.querySelectorAll('audio');
+        
+        audios.forEach(audio => {
+            audio.volume = 0.05;
+            
+            audio.addEventListener('play', function() {
+                audios.forEach(otherAudio => {
+                    if (otherAudio !== audio) {
+                        otherAudio.pause();
+                    }
+                });
+            });
+        });
+    });
+</script>
 <body>
     <h1>Albums</h1>
     <div class="card-container">
@@ -139,7 +155,7 @@ function GetSongsFromAlbum(string $artistName, string $albumName): array
                         <td><?= $song['title'] ?></td>
                         <td><?= $song['duration'] ?> seconds</td>
                         <td>
-                            <audio controls>
+                            <audio controls id="music">
                                 <source src="<?= $song['preview'] ?>" type="audio/mpeg">
                                 Your browser does not support the audio element.
                             </audio>
